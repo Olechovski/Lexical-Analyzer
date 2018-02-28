@@ -1,0 +1,45 @@
+package edu.iup.cosc424.lexicalAnalyzer.bo;
+
+public class CONSTANT {
+	
+	public static final int ID = 100;
+	public static final int NUM = 102;
+	public static final int SEMICOLON = 103;
+	public static final int COMMA = 104;
+	public static final int LPAREN = 105;
+	public static final int RPAREN = 106;
+	public static final int LBRACE = 107;
+	public static final int RBRACE = 108;
+	
+	public static final int ADDOP = 200;
+	public static final int ADD = 201;
+	public static final int SUB = 202;
+	
+	public static final int MULTOP = 300;
+	public static final int MUL = 301;
+	public static final int DIV = 302;
+	public static final int MOD = 303;
+	
+	public static final int RELOP = 400;
+	public static final int EE = 401;
+	public static final int NE = 402;
+	public static final int LT = 403;
+	public static final int LE = 404;
+	public static final int GT = 405;
+	public static final int GE = 406;
+	
+	public static final int ASSIGNOP = 500;
+	public static final int EQ = 501;
+	
+	// Keywords
+	public static final int VOID = 600;
+	public static final int INT = 601;
+	public static final int DOUBLE = 602;
+	public static final int CHAR = 603;
+	public static final int IF = 604;
+	public static final int ELSE = 605;
+	public static final int WHILE = 606;
+	
+	
+
+}
