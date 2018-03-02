@@ -96,6 +96,8 @@ package edu.iup.cosc424.lexicalAnalyzer.util;
 			
 			// If the search is successful, return the value associated with the 
 			// located key.
+			
+			
 			if (table[index] != null){
 				return table[index].value;
 			}
