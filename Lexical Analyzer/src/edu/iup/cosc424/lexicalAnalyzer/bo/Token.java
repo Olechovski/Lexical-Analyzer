@@ -1,12 +1,12 @@
 package edu.iup.cosc424.lexicalAnalyzer.bo;
 
 public class Token {
-	private String id;
-	private int value;
+	public int type;
+	public int value;
 	
-	public Token(String id, int value) {
+	public Token(int type, int value) {
 		super();
-		this.id = id;
+		this.type = type;
 		this.value = value;
 	}
 

@@ -1,34 +1,42 @@
 package edu.iup.cosc424.lexicalAnalyzer.bo;
 
-import java.util.HashMap;
+import edu.iup.cosc424.lexicalAnalyzer.util.HashTable;
 
-public class SymbolTable {
+public class SymbolTable  {
 
-	public static HashMap<String, Integer> symbolTable = new HashMap<String, Integer>();
 	
-	public static void main (String []args){
-		symbolTable.put("one", 1);
-		symbolTable.put("one", 1);
+	public static HashTable<Identifier,Integer> symbolTable = new HashTable<Identifier,Integer>();
+	private static int assignedIndex = 700;
+	
+	public int installID(String idName){
 		
-		for(String key : symbolTable.keySet()){
-			System.out.println(key);
+		Identifier id = new Identifier(idName);
+			symbolTable.put(id, assignedIndex);
+			
+	//		return "id's index (id's value)";
+	}
+	
+	public int getToken(String id){
+		return symbolTable.containsKey(id) ? symbolTable.get(id): null;	
+	}
+	
+	
+	
+	
+	/**	INNER CLASS **
+	 * Used to construct identifier so it can be stored into the symbol table
+	 *
+	 */
+	public class Identifier {
+		private String name;
+		private int value = CONSTANT.ID;
+		
+		public Identifier(String name) {
+			super();
+			this.name = name;
 		}
-	}
-	
-	public void installID(Token t){
-		// call getToken
-		
 		
 	}
-	
-	
-	
-	public Token getToken(Token t){
-		
-		return null;
-		
-	}
-	
 	
 	
 	

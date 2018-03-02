@@ -14,6 +14,8 @@ public class CONSTANT {
 	public static final int ADDOP = 200;
 	public static final int ADD = 201;
 	public static final int SUB = 202;
+	public static final int OR = 203;
+	public static final int AND = 204;
 	
 	public static final int MULTOP = 300;
 	public static final int MUL = 301;
@@ -39,7 +41,6 @@ public class CONSTANT {
 	public static final int IF = 604;
 	public static final int ELSE = 605;
 	public static final int WHILE = 606;
-	
 	
 
 }
