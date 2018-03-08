@@ -112,7 +112,19 @@ public class LexicalAnalyzerReader {
 
 			// Number
 			case 3 : 
+					character = (char) in.read(); 
+					in.mark(2);
+					if (isDigit(character)){
+						lexeme = lexeme + character;
+						state = 3;
+					}
+					else{
+						state = 4;
+					}
+					break;
 			case 4 : 
+					retract();
+					return (new Token(CONSTANT.NUM, numValue(lexeme)));
 			case 5 : 
 			case 6 : 
 			case 7 : 
@@ -126,6 +138,8 @@ public class LexicalAnalyzerReader {
 			case 15 :
 			case 16 : 
 			case 17 : 
+				
+				
 			case 18 : 
 			case 19 : 
 			case 20 :
@@ -149,6 +163,10 @@ public class LexicalAnalyzerReader {
 		
 	}
 	
+	private int numValue(String lexeme) {
+		return Integer.parseInt(lexeme);
+	}
+
 	public void retract() {
 		try {
 			in.reset();
