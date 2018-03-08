@@ -27,7 +27,7 @@ package edu.iup.cosc424.lexicalAnalyzer.util;
 			table = new Entry[START_CAPACITY];
 		}
 
-		private int find (K key){
+		public int find (K key){
 			// calculate the starting index.
 			int index = key.hashCode () % table.length;
 			if (index < 0){

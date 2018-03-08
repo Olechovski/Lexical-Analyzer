@@ -19,7 +19,6 @@ public class LexicalAnalyzer {
 
 		} 
 		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 
@@ -27,12 +26,11 @@ public class LexicalAnalyzer {
 
 	private static void loadLexicalAnalyzer(String fileName) throws IOException {
 		LexicalAnalyzerReader reader = new LexicalAnalyzerReader(fileName);
-		SymbolTable symbolTable = new SymbolTable();
-
 		Token t;
 
 		while ((t = reader.readToken()) != null) {
 			// print token here
+			System.out.print("<" + t.type + "," + t.value + ">");
 		}
 
 	}

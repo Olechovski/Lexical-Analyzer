@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import edu.iup.cosc424.lexicalAnalyzer.bo.CONSTANT;
+import edu.iup.cosc424.lexicalAnalyzer.bo.SymbolTable;
 import edu.iup.cosc424.lexicalAnalyzer.bo.Token;
 
 public class LexicalAnalyzerReader {
@@ -17,12 +19,12 @@ public class LexicalAnalyzerReader {
 
 	public Token readToken() throws IOException {
 		
+		SymbolTable st = new SymbolTable();
 		
-		String str = "";
+		String lexeme = "";
 		char character;
 		
 		int state = 0;
-		
 		
 		while(true){
 			
@@ -31,11 +33,11 @@ public class LexicalAnalyzerReader {
 			case 0 : 
 					character = (char) in.read(); 
 					if (isLetter(character)){
-						str = str + character;
+						lexeme = lexeme + character;
 						state = 1;
 					}
 					else if (isDigit(character)){
-						str = str + character;
+						lexeme = lexeme + character;
 						state = 4;
 					}
 					else if ( character == '|'){
@@ -91,20 +93,23 @@ public class LexicalAnalyzerReader {
 					}
 					
 					break;
-					
+			// Identifier	
 			case 1 : 
 					character = (char) in.read(); 
+					in.mark(2);
 					if ( isLetter(character) || isDigit(character) ){
-						str = str + character;
+						lexeme = lexeme + character;
 						state = 1;
 					}
+					else{
 						state = 2;
-						break;
-					
+					}
+						break;	
 			case 2 : 
 					retract();
-					installID();
-					
+					return (new Token(CONSTANT.ID, st.installID(lexeme)));
+
+			// Number
 			case 3 : 
 			case 4 : 
 			case 5 : 
@@ -134,24 +139,30 @@ public class LexicalAnalyzerReader {
 			case 29 : 
 			case 30 : 
 			case 31 : 
- 
+			default : break;
 			}
+	
+			
 		}
 		
-//		String id;
-//		int value;
-//
-//		return new Token(id, value);
-		return null;
 		
 	}
 	
+	public void retract() {
+		try {
+			in.reset();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public boolean isLetter( char character ){
 		
-		if ( 65 < character && character < 90){
+		if ( 64 < character && character < 91){
 			return true;
 		}
-		else if ( 97 < character && character < 122){
+		else if ( 96 < character && character < 123){
 			return true;
 		}
 	
