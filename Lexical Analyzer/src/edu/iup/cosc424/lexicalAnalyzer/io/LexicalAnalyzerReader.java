@@ -12,6 +12,7 @@ import edu.iup.cosc424.lexicalAnalyzer.bo.Token;
 public class LexicalAnalyzerReader {
 	
 	private BufferedReader in;
+	private int value;
 	
 	public LexicalAnalyzerReader(String fileName) throws FileNotFoundException {
 		in = new BufferedReader(new FileReader(fileName));
@@ -107,6 +108,9 @@ public class LexicalAnalyzerReader {
 						break;	
 			case 2 : 
 					retract();
+					if(isKeyword(lexeme)) {
+						return (new Token(CONSTANT.KEYWORD, value));
+					}
 					return (new Token(CONSTANT.ID, st.installID(lexeme)));
 
 			// Number
@@ -169,7 +173,7 @@ public class LexicalAnalyzerReader {
 		return false;
 
 	}
-	
+
 	public boolean isDigit( char character ){
 		if ( 47 < character && character < 58){
 			return true;
@@ -179,6 +183,28 @@ public class LexicalAnalyzerReader {
 	
 	public void close() throws IOException {
 		in.close();
+	}
+	
+	public boolean isKeyword(String lexeme) {
+		if(lexeme.equals("void")) {
+			value = CONSTANT.VOID;
+		} else if(lexeme.equals("int")) {
+			value = CONSTANT.INT;
+		} else if (lexeme.equals("double")) {
+			value = CONSTANT.DOUBLE;
+		} else if(lexeme.equals("char")) {
+			value = CONSTANT.CHAR;
+		} else if(lexeme.equals("if")) {
+			value = CONSTANT.IF;
+		} else if(lexeme.equals("else")) {
+			value = CONSTANT.ELSE;
+		} else if(lexeme.equals("while")) {
+			value = CONSTANT.WHILE;
+		} else {
+			return false;
+		}
+		
+		return true;
 	}
 	
 
