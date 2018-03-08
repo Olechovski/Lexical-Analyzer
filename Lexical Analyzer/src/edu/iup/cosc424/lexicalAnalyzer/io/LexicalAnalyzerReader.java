@@ -107,6 +107,7 @@ public class LexicalAnalyzerReader {
 						break;	
 			case 2 : 
 					retract();
+	
 					return (new Token(CONSTANT.ID, st.installID(lexeme)));
 
 			// Number
