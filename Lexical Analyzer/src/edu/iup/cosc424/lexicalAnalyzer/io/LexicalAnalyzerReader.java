@@ -126,20 +126,23 @@ public class LexicalAnalyzerReader {
 					retract();
 					return (new Token(CONSTANT.NUM, numValue(lexeme)));
 			case 5 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
 			case 6 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.AND));
 			case 7 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
 			case 8 : 
+				return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
 			case 9 : 
 			case 10 :
 			case 11 : 
 			case 12 : 
 			case 13 : 
 			case 14 : 
+				
 			case 15 :
 			case 16 : 
-			case 17 : 
-				
-				
+			case 17 :
 			case 18 : 
 			case 19 : 
 			case 20 :

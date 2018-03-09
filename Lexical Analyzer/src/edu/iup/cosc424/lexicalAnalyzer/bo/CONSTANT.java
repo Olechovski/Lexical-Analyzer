@@ -34,13 +34,14 @@ public class CONSTANT {
 	public static final int EQ = 501;
 	
 	// Keywords
-	public static final int VOID = 600;
-	public static final int INT = 601;
-	public static final int DOUBLE = 602;
-	public static final int CHAR = 603;
-	public static final int IF = 604;
-	public static final int ELSE = 605;
-	public static final int WHILE = 606;
+	public static final int KEYWORD = 600;
+	public static final int VOID = 601;
+	public static final int INT = 602;
+	public static final int DOUBLE = 603;
+	public static final int CHAR = 604;
+	public static final int IF = 605;
+	public static final int ELSE = 606;
+	public static final int WHILE = 607;
 	
 
 }
