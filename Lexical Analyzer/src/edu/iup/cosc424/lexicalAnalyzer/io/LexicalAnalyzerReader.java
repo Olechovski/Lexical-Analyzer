@@ -12,7 +12,6 @@ import edu.iup.cosc424.lexicalAnalyzer.bo.Token;
 public class LexicalAnalyzerReader {
 	
 	private BufferedReader in;
-	private int value;
 	
 	public LexicalAnalyzerReader(String fileName) throws FileNotFoundException {
 		in = new BufferedReader(new FileReader(fileName));
@@ -108,27 +107,42 @@ public class LexicalAnalyzerReader {
 						break;	
 			case 2 : 
 					retract();
-					if(isKeyword(lexeme)) {
-						return (new Token(CONSTANT.KEYWORD, value));
-					}
+	
 					return (new Token(CONSTANT.ID, st.installID(lexeme)));
 
 			// Number
 			case 3 : 
+					character = (char) in.read(); 
+					in.mark(2);
+					if (isDigit(character)){
+						lexeme = lexeme + character;
+						state = 3;
+					}
+					else{
+						state = 4;
+					}
+					break;
 			case 4 : 
+					retract();
+					return (new Token(CONSTANT.NUM, numValue(lexeme)));
 			case 5 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
 			case 6 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.AND));
 			case 7 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
 			case 8 : 
+				return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
 			case 9 : 
 			case 10 :
 			case 11 : 
 			case 12 : 
 			case 13 : 
 			case 14 : 
+				
 			case 15 :
 			case 16 : 
-			case 17 : 
+			case 17 :
 			case 18 : 
 			case 19 : 
 			case 20 :
@@ -152,6 +166,10 @@ public class LexicalAnalyzerReader {
 		
 	}
 	
+	private int numValue(String lexeme) {
+		return Integer.parseInt(lexeme);
+	}
+
 	public void retract() {
 		try {
 			in.reset();
@@ -173,7 +191,7 @@ public class LexicalAnalyzerReader {
 		return false;
 
 	}
-
+	
 	public boolean isDigit( char character ){
 		if ( 47 < character && character < 58){
 			return true;
@@ -183,28 +201,6 @@ public class LexicalAnalyzerReader {
 	
 	public void close() throws IOException {
 		in.close();
-	}
-	
-	public boolean isKeyword(String lexeme) {
-		if(lexeme.equals("void")) {
-			value = CONSTANT.VOID;
-		} else if(lexeme.equals("int")) {
-			value = CONSTANT.INT;
-		} else if (lexeme.equals("double")) {
-			value = CONSTANT.DOUBLE;
-		} else if(lexeme.equals("char")) {
-			value = CONSTANT.CHAR;
-		} else if(lexeme.equals("if")) {
-			value = CONSTANT.IF;
-		} else if(lexeme.equals("else")) {
-			value = CONSTANT.ELSE;
-		} else if(lexeme.equals("while")) {
-			value = CONSTANT.WHILE;
-		} else {
-			return false;
-		}
-		
-		return true;
 	}
 	
 
