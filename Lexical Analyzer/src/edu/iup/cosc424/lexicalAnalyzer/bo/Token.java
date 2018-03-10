@@ -9,5 +9,10 @@ public class Token {
 		this.type = type;
 		this.value = value;
 	}
+	
+	public Token(int value) {
+		super();
+		this.value = value;
+	}
 
 }
