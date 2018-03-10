@@ -94,6 +94,7 @@ public class LexicalAnalyzerReader {
 					}
 					
 					break;
+					
 			// Identifier	
 			case 1 : 
 					character = (char) in.read(); 
@@ -115,17 +116,48 @@ public class LexicalAnalyzerReader {
 
 			// Number
 			case 3 : 
+					character = (char) in.read(); 
+					in.mark(2);
+					if (isDigit(character)){
+						lexeme = lexeme + character;
+						state = 3;
+					}
+					else{
+						state = 4;
+					}
+					break;
 			case 4 : 
-			case 5 : 
+					retract();
+					return (new Token(CONSTANT.NUM, numValue(lexeme)));
+			case 5 :
+					character = (char) in.read(); 
+					if ( character == '|'){
+						state = 6;
+					}
+					break;
 			case 6 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
+					
 			case 7 : 
+					character = (char) in.read(); 
+					if ( character == '|'){
+						state = 8;
+					}
+					break;
 			case 8 : 
+					return (new Token(CONSTANT.ADDOP, CONSTANT.AND)); 
 			case 9 : 
+					return (new Token(CONSTANT.SEMICOLON));
 			case 10 :
+					return (new Token(CONSTANT.COMMA));
 			case 11 : 
+					return (new Token(CONSTANT.ADD));
 			case 12 : 
+					return (new Token(CONSTANT.SUB));
 			case 13 : 
+					return (new Token(CONSTANT.MUL));
 			case 14 : 
+					return (new Token(CONSTANT.DIV));
 			case 15 :
 			case 16 : 
 			case 17 : 
@@ -142,8 +174,7 @@ public class LexicalAnalyzerReader {
 			case 28 :
 			case 29 : 
 			case 30 : 
-			case 31 : 
-			default : break;
+			default : System.out.println("Syntax Error"); break;
 			}
 	
 			
@@ -152,6 +183,10 @@ public class LexicalAnalyzerReader {
 		
 	}
 	
+	private int numValue(String lexeme) {
+		return Integer.parseInt(lexeme);
+	}
+
 	public void retract() {
 		try {
 			in.reset();
