@@ -39,58 +39,58 @@ public class LexicalAnalyzerReader {
 					}
 					else if (isDigit(character)){
 						lexeme = lexeme + character;
-						state = 4;
+						state = 3;
 					}
 					else if ( character == '|'){
-						state = 6;
+						state = 5;
 					}
 					else if ( character == '&'){
-						state = 8;
+						state = 7;
 					}
 					else if ( character == ';'){
-						state = 10;
+						state = 9;
 					}
 					else if ( character == ','){
-						state = 11;
+						state = 10;
 					}
 					else if ( character == '+'){
-						state = 12;
+						state = 11;
 					}
 					else if ( character == '-'){
-						state = 13;
+						state = 12;
 					}
 					else if ( character == '*'){
-						state = 14;
+						state = 13;
 					}
 					else if ( character == '/'){
-						state = 15;
+						state = 14;
 					}
 					else if ( character == '('){
-						state = 16;
+						state = 15;
 					}
 					else if ( character == ')'){
-						state = 17;
+						state = 16;
 					}
 					else if ( character == '{'){
-						state = 18;
+						state = 17;
 					}
 					else if ( character == '}'){
-						state = 19;
+						state = 18;
 					}
 					else if ( character == '%'){
-						state = 20;
+						state = 19;
 					}
 					else if ( character == '<'){
-						state = 21;
+						state = 20;
 					}
 					else if ( character == '>'){
-						state = 24;
+						state = 23;
 					}
 					else if ( character == '='){
-						state = 24;
+						state = 26;
 					}
 					else if ( character == '!'){
-						state = 30;
+						state = 29;
 					}
 					
 					break;
