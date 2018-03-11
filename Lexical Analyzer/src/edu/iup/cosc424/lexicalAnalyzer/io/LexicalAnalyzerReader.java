@@ -26,7 +26,7 @@ public class LexicalAnalyzerReader {
 
 		int state = 0;
 
-		while (true) {
+		while (in.ready()) {
 
 			switch (state) {
 
@@ -210,7 +210,8 @@ public class LexicalAnalyzerReader {
 			}
 
 		}
-
+		
+		return null;
 	}
 
 	private int numValue(String lexeme) {
