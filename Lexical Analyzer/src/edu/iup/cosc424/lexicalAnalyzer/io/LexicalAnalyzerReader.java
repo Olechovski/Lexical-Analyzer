@@ -13,14 +13,13 @@ public class LexicalAnalyzerReader {
 
 	private BufferedReader in;
 	private int value;
+	private SymbolTable st = new SymbolTable();
 
 	public LexicalAnalyzerReader(String fileName) throws FileNotFoundException {
 		in = new BufferedReader(new FileReader(fileName));
 	}
 
 	public Token readToken() throws IOException {
-
-		SymbolTable st = new SymbolTable();
 
 		String lexeme = "";
 		char character;
@@ -38,7 +37,7 @@ public class LexicalAnalyzerReader {
 					state = 1;
 				} else if (isDigit(character)) {
 					lexeme = lexeme + character;
-					state = 4;
+					state = 3;
 				} else if (character == '|') {
 					state = 5;
 				} else if (character == '&') {
@@ -78,8 +77,8 @@ public class LexicalAnalyzerReader {
 				break;
 			// Identifier
 			case 1:
-				character = (char) in.read();
 				in.mark(2);
+				character = (char) in.read();
 				if (isLetter(character) || isDigit(character)) {
 					lexeme = lexeme + character;
 					state = 1;
@@ -96,18 +95,51 @@ public class LexicalAnalyzerReader {
 
 			// Number
 			case 3:
-				// Number
+				in.mark(2);
+				character = (char) in.read();
+				if (isDigit(character)) {
+					lexeme = lexeme + character;
+					state = 3;
+				} else {
+					state = 4;
+				}
+				break;
 			case 4:
+				retract();
+				return (new Token(CONSTANT.NUM, numValue(lexeme)));
 			case 5:
+				character = (char) in.read();
+				if (character == '|') {
+					state = 6;
+				} else {
+					state = 32;
+				}
+				break;
 			case 6:
+				return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
+
 			case 7:
+				character = (char) in.read();
+				if (character == '&') {
+					state = 8;
+				} else {
+					state = 32;
+				}
+				break;
 			case 8:
+				return (new Token(CONSTANT.ADDOP, CONSTANT.AND));
 			case 9:
+				return (new Token(CONSTANT.SEMICOLON));
 			case 10:
+				return (new Token(CONSTANT.COMMA));
 			case 11:
+				return (new Token(CONSTANT.ADD));
 			case 12:
+				return (new Token(CONSTANT.SUB));
 			case 13:
+				return (new Token(CONSTANT.MUL));
 			case 14:
+				return (new Token(CONSTANT.DIV));
 			case 15:
 				return (new Token(CONSTANT.LPAREN));
 			case 16:
@@ -119,6 +151,7 @@ public class LexicalAnalyzerReader {
 			case 19:
 				return (new Token(CONSTANT.MOD));
 			case 20:
+				in.mark(2);
 				character = (char) in.read();
 				if (character == '=') {
 					state = 21;
@@ -133,47 +166,61 @@ public class LexicalAnalyzerReader {
 				retract();
 				return (new Token(CONSTANT.RELOP, CONSTANT.LT));
 			case 23:
+				in.mark(2);
 				character = (char) in.read();
 				if (character == '=') {
 					state = 24;
 				} else {
 					state = 25;
 				}
+				break;
 			case 24:
 				return (new Token(CONSTANT.RELOP, CONSTANT.GE));
 			case 25:
 				retract();
 				return (new Token(CONSTANT.RELOP, CONSTANT.GT));
 			case 26:
+				in.mark(2);
 				character = (char) in.read();
 				if (character == '=') {
 					state = 27;
 				} else {
 					state = 28;
 				}
+				break;
 			case 27:
 				return (new Token(CONSTANT.RELOP, CONSTANT.EE));
 			case 28:
 				retract();
-				return (new Token(CONSTANT.RELOP, CONSTANT.EQ));
+				return (new Token(CONSTANT.ASSIGNOP, CONSTANT.EQ));
 			case 29:
+				in.mark(2);
 				character = (char) in.read();
 				if (character == '=') {
 					state = 30;
 				} else {
 					state = 31;
 				}
+				break;
 			case 30:
 				return (new Token(CONSTANT.RELOP, CONSTANT.NE));
 			case 31:
 				retract();
 				return (new Token(CONSTANT.RELOP, CONSTANT.EX));
+			case 32:
+				System.err.println("Syntax Error");
+				System.exit(-99);
+				break;
 			default:
 				break;
 			}
 
 		}
 
+	}
+
+	private int numValue(String lexeme) {
+		return Integer.parseInt(lexeme);
 	}
 
 	public void retract() {

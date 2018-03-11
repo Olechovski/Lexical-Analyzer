@@ -8,7 +8,6 @@ public class CONSTANT {
 	public static final int SEMICOLON = 103;
 	public static final int COMMA = 104;
 	
-	public static final int BRACE = 105;
 	public static final int LPAREN = 106;
 	public static final int RPAREN = 107;
 	public static final int LBRACE = 108;
