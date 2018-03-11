@@ -4,12 +4,14 @@ public class CONSTANT {
 	
 	public static final int ID = 100;
 	public static final int NUM = 102;
+	
 	public static final int SEMICOLON = 103;
 	public static final int COMMA = 104;
-	public static final int LPAREN = 105;
-	public static final int RPAREN = 106;
-	public static final int LBRACE = 107;
-	public static final int RBRACE = 108;
+	
+	public static final int LPAREN = 106;
+	public static final int RPAREN = 107;
+	public static final int LBRACE = 108;
+	public static final int RBRACE = 109;
 	
 	public static final int ADDOP = 200;
 	public static final int ADD = 201;
@@ -29,6 +31,7 @@ public class CONSTANT {
 	public static final int LE = 404;
 	public static final int GT = 405;
 	public static final int GE = 406;
+	public static final int EX = 407;
 	
 	public static final int ASSIGNOP = 500;
 	public static final int EQ = 501;

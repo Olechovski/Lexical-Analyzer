@@ -30,7 +30,12 @@ public class LexicalAnalyzer {
 
 		while ((t = reader.readToken()) != null) {
 			// print token here
-			System.out.print("<" + t.type + "," + t.value + ">");
+			if (t.type == 0){
+				System.out.println("<" + t.value + ">");
+			}
+			else{
+				System.out.println("<" + t.type + "," + t.value + ">");
+			}
 		}
 
 	}
