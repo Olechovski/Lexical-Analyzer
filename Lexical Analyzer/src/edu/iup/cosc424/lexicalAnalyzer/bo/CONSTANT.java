@@ -1,18 +1,28 @@
 package edu.iup.cosc424.lexicalAnalyzer.bo;
 
+/**
+ * Establish global constants e.g. (keywords, reserved words)
+ * 
+ * @author Eric Olechovski & Kyle Wilson
+ *
+ */
 public class CONSTANT {
 	
+	// Identifier & Number
 	public static final int ID = 100;
 	public static final int NUM = 102;
 	
+	// Statement termination/delimit 
 	public static final int SEMICOLON = 103;
 	public static final int COMMA = 104;
 	
+	// Control Structures =
 	public static final int LPAREN = 106;
 	public static final int RPAREN = 107;
 	public static final int LBRACE = 108;
 	public static final int RBRACE = 109;
 	
+	// Arithmetic Operators
 	public static final int ADDOP = 200;
 	public static final int ADD = 201;
 	public static final int SUB = 202;
@@ -24,6 +34,7 @@ public class CONSTANT {
 	public static final int DIV = 302;
 	public static final int MOD = 303;
 	
+	// Relational Operators 
 	public static final int RELOP = 400;
 	public static final int EE = 401;
 	public static final int NE = 402;
@@ -33,6 +44,7 @@ public class CONSTANT {
 	public static final int GE = 406;
 	public static final int EX = 407;
 	
+	// Assign Operation
 	public static final int ASSIGNOP = 500;
 	public static final int EQ = 501;
 	

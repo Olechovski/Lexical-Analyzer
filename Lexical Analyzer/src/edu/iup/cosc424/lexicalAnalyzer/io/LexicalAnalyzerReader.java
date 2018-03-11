@@ -9,16 +9,35 @@ import edu.iup.cosc424.lexicalAnalyzer.bo.CONSTANT;
 import edu.iup.cosc424.lexicalAnalyzer.bo.SymbolTable;
 import edu.iup.cosc424.lexicalAnalyzer.bo.Token;
 
+/**
+ *  This class is designed to read the file and perform lexical analysis that outputs a token as a result
+ *  
+ * @author Eric Olechovski & Kyle Wilson
+ *
+ */
 public class LexicalAnalyzerReader {
 
 	private BufferedReader in;
 	private int value;
 	private SymbolTable st = new SymbolTable();
+	
 
+	/** Construct the Lexical Analyzer reader by initializing the buffer reader
+	 * 
+	 * @param fileName
+	 * @throws FileNotFoundException
+	 */
 	public LexicalAnalyzerReader(String fileName) throws FileNotFoundException {
 		in = new BufferedReader(new FileReader(fileName));
 	}
 
+	
+	/**
+	 * Responsible for creating a token based on the constructed lexeme
+	 * 
+	 * @return A token object
+	 * @throws IOException
+	 */
 	public Token readToken() throws IOException {
 
 		String lexeme = "";
@@ -30,6 +49,7 @@ public class LexicalAnalyzerReader {
 
 			switch (state) {
 
+			// Base case
 			case 0:
 				character = (char) in.read();
 				if (isLetter(character)) {
@@ -75,6 +95,7 @@ public class LexicalAnalyzerReader {
 				}
 
 				break;
+				
 			// Identifier
 			case 1:
 				in.mark(2);
@@ -211,13 +232,25 @@ public class LexicalAnalyzerReader {
 
 		}
 		
+		// file is empty
 		return null;
 	}
 
+	/**
+	 * lexeme is a string that represents a number and is then
+	 * parsed into an integer value
+	 * 
+	 * @param lexeme
+	 * @return integer value
+	 */
 	private int numValue(String lexeme) {
 		return Integer.parseInt(lexeme);
 	}
 
+	/**
+	 * After reaching the end of a lexeme
+	 * the 'lookahead' will recede one position
+	 */
 	public void retract() {
 		try {
 			in.reset();
@@ -226,6 +259,14 @@ public class LexicalAnalyzerReader {
 		}
 	}
 
+	
+	/**
+	 * Checks to see if a lexeme/character is a letter
+	 * [a-z A-Z]
+	 * 
+	 * @param character
+	 * @return True or False
+	 */
 	public boolean isLetter(char character) {
 
 		if (64 < character && character < 91) {
@@ -238,6 +279,13 @@ public class LexicalAnalyzerReader {
 
 	}
 
+	/**
+	 * Checks to see if a lexeme/character is a digit
+	 * [0-9]
+	 * 
+	 * @param character
+	 * @return True or False
+	 */
 	public boolean isDigit(char character) {
 		if (47 < character && character < 58) {
 			return true;
@@ -249,6 +297,11 @@ public class LexicalAnalyzerReader {
 		in.close();
 	}
 
+	/** Ensures that an potential identifier is not a keyword 
+	 * 
+	 * @param lexeme
+	 * @return True or False
+	 */
 	public boolean isKeyword(String lexeme) {
 		if (lexeme.equals("void")) {
 			value = CONSTANT.VOID;

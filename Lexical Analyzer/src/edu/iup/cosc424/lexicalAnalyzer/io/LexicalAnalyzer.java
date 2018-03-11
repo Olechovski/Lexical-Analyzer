@@ -5,6 +5,13 @@ import java.io.IOException;
 import edu.iup.cosc424.lexicalAnalyzer.bo.SymbolTable;
 import edu.iup.cosc424.lexicalAnalyzer.bo.Token;
 
+/**
+ * This class is designed to open a file for lexical analysis
+ * and to display the resulting tokens
+ * 
+ * @author Eric Olechovski & Kyle Wilson
+ *
+ */
 public class LexicalAnalyzer {
 
 	public static void main (String [] args) throws IOException{
@@ -24,6 +31,11 @@ public class LexicalAnalyzer {
 
 	}
 
+	/** Prepares file to be read
+	 * 
+	 * @param fileName
+	 * @throws IOException
+	 */
 	private static void loadLexicalAnalyzer(String fileName) throws IOException {
 		LexicalAnalyzerReader reader = new LexicalAnalyzerReader(fileName);
 		Token t;
