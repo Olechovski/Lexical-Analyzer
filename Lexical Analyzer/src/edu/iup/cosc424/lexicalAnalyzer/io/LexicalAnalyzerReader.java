@@ -111,8 +111,6 @@ public class LexicalAnalyzerReader {
 				character = (char) in.read();
 				if (character == '|') {
 					state = 6;
-				} else {
-					state = 32;
 				}
 				break;
 			case 6:
@@ -122,8 +120,6 @@ public class LexicalAnalyzerReader {
 				character = (char) in.read();
 				if (character == '&') {
 					state = 8;
-				} else {
-					state = 32;
 				}
 				break;
 			case 8:
@@ -207,11 +203,9 @@ public class LexicalAnalyzerReader {
 			case 31:
 				retract();
 				return (new Token(CONSTANT.RELOP, CONSTANT.EX));
-			case 32:
+			default:
 				System.err.println("Syntax Error");
 				System.exit(-99);
-				break;
-			default:
 				break;
 			}
 
