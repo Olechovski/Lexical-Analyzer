@@ -4,9 +4,16 @@ import edu.iup.cosc424.lexicalAnalyzer.util.HashTable;
 
 public class SymbolTable  {
 
+	// Symbol Table for identifiers
 	public static HashTable<Integer,Integer> symbolTable = new HashTable<Integer,Integer>();
 	
 	
+	/**
+	 * Examines symbol table for lexeme; if not found, adds lexeme to the symbol table
+	 * returns 0 
+	 * @param idName
+	 * @return index of lexeme in table
+	 */
 	public int installID(String idName){
 			int id = valueOf(idName);
 			symbolTable.put(id, CONSTANT.ID);
@@ -14,13 +21,6 @@ public class SymbolTable  {
 	}
 	
 
-	public int getToken(String idName){
-		int id = valueOf(idName);
-		return symbolTable.get(id) != null ? symbolTable.get(id) : -1;	
-	}
-	
-	
-	
 	private int valueOf(String id) {
 		String idASCII = "";
 		for (int i = 0; i < id.length(); i++){

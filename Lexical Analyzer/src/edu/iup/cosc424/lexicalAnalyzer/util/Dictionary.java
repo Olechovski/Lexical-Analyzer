@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * An abstract data type for a Dictionary that maps a set of keys to values.
  * 
- * @author Eric Olechovski
+ * @author Eric Olechovski & Kyle Wilson
  *
  * @param <K> Data type for the keys
  * @param <V> Data type for the values

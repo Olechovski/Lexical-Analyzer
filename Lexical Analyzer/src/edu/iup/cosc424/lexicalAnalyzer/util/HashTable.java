@@ -8,7 +8,7 @@ package edu.iup.cosc424.lexicalAnalyzer.util;
 	 * Class creates a hash table in which it can reallocate if necessary 
 	 * and items can be added to the table and removed from the table
 	 * 
-	 * @author Eric Olechovski
+	 * @author Eric Olechovski & Kyle Wilson
 	 *
 	 * @param <K>
 	 * @param <V>
@@ -16,7 +16,7 @@ package edu.iup.cosc424.lexicalAnalyzer.util;
 	public class HashTable<K,V> implements Dictionary<K,V> {
 		
 		private Entry<K,V> [] table;
-		private static final int START_CAPACITY = 51;
+		private static final int START_CAPACITY = 11;
 		private double LOAD_THRESHOLD = 0.50;
 		private int numKeys;
 		private int numDeletes;
