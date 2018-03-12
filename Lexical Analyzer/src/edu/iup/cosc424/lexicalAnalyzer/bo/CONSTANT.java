@@ -16,7 +16,7 @@ public class CONSTANT {
 	public static final int SEMICOLON = 103;
 	public static final int COMMA = 104;
 	
-	// Control Structures =
+	// Control Structures
 	public static final int LPAREN = 106;
 	public static final int RPAREN = 107;
 	public static final int LBRACE = 108;

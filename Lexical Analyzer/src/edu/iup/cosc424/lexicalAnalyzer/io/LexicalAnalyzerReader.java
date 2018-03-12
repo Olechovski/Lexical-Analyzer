@@ -128,6 +128,8 @@ public class LexicalAnalyzerReader {
 			case 4:
 				retract();
 				return (new Token(CONSTANT.NUM, numValue(lexeme)));
+			
+			// Arithmetic Operators
 			case 5:
 				character = (char) in.read();
 				if (character == '|') {
@@ -149,6 +151,8 @@ public class LexicalAnalyzerReader {
 				return (new Token(CONSTANT.SEMICOLON));
 			case 10:
 				return (new Token(CONSTANT.COMMA));
+				
+			// Arithmetic Operators
 			case 11:
 				return (new Token(CONSTANT.ADD));
 			case 12:
@@ -157,6 +161,8 @@ public class LexicalAnalyzerReader {
 				return (new Token(CONSTANT.MUL));
 			case 14:
 				return (new Token(CONSTANT.DIV));
+				
+			// Control Structures
 			case 15:
 				return (new Token(CONSTANT.LPAREN));
 			case 16:
@@ -165,8 +171,12 @@ public class LexicalAnalyzerReader {
 				return (new Token(CONSTANT.LBRACE));
 			case 18:
 				return (new Token(CONSTANT.RBRACE));
+				
+			// Arithmetic Operator
 			case 19:
 				return (new Token(CONSTANT.MOD));
+				
+			// Relational Operators 
 			case 20:
 				in.mark(2);
 				character = (char) in.read();
