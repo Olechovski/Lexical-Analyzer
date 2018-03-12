@@ -16,7 +16,7 @@ package edu.iup.cosc424.lexicalAnalyzer.util;
 	public class HashTable<K,V> implements Dictionary<K,V> {
 		
 		private Entry<K,V> [] table;
-		private static final int START_CAPACITY = 11;
+		private static final int START_CAPACITY = 51;
 		private double LOAD_THRESHOLD = 0.50;
 		private int numKeys;
 		private int numDeletes;
