@@ -45,7 +45,7 @@ public class LexicalAnalyzerReader {
 		int state = 0;
 
 		
-		while (in.ready() || lexeme.length() != 0) {
+		while (in.ready() || state != 0) {
 
 			switch (state) {
 
@@ -94,7 +94,12 @@ public class LexicalAnalyzerReader {
 				} else if (character == '!') {
 					state = 29;
 				}
-
+				else if (character == '\r' || character == '\n'){
+					state = 0;
+				}
+				else{
+					state = -1;
+				}
 				break;
 				
 			// Identifier
@@ -108,7 +113,6 @@ public class LexicalAnalyzerReader {
 				} else {
 					state = 2;
 				}
-			
 				break;
 			case 2:
 				retract();
@@ -138,6 +142,9 @@ public class LexicalAnalyzerReader {
 				if (character == '|') {
 					state = 6;
 				}
+				else{
+					state = -1;
+				}
 				break;
 			case 6:
 				return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
@@ -146,6 +153,9 @@ public class LexicalAnalyzerReader {
 				character = (char) in.read();
 				if (character == '&') {
 					state = 8;
+				}
+				else{
+					state = -1;
 				}
 				break;
 			case 8:
@@ -188,6 +198,7 @@ public class LexicalAnalyzerReader {
 				} else {
 					state = 22;
 				}
+
 				break;
 
 			case 21:
