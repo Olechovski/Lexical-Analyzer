@@ -20,7 +20,7 @@ public class LexicalAnalyzerReader {
 	private BufferedReader in;
 	private int value;
 	private SymbolTable st = new SymbolTable();
-	
+
 
 	/** Construct the Lexical Analyzer reader by initializing the buffer reader
 	 * 
@@ -42,13 +42,14 @@ public class LexicalAnalyzerReader {
 
 		String lexeme = "";
 		char character;
-
 		int state = 0;
 
-		while (in.ready()) {
+		
+		while (in.ready() || state != 0) {
 
 			switch (state) {
 
+	
 			// Base case
 			case 0:
 				character = (char) in.read();
@@ -93,13 +94,19 @@ public class LexicalAnalyzerReader {
 				} else if (character == '!') {
 					state = 29;
 				}
-
+				else if (character == '\r' || character == '\n'){
+					state = 0;
+				}
+				else{
+					state = -1;
+				}
 				break;
 				
 			// Identifier
 			case 1:
 				in.mark(2);
 				character = (char) in.read();
+				
 				if (isLetter(character) || isDigit(character)) {
 					lexeme = lexeme + character;
 					state = 1;
@@ -135,6 +142,9 @@ public class LexicalAnalyzerReader {
 				if (character == '|') {
 					state = 6;
 				}
+				else{
+					state = -1;
+				}
 				break;
 			case 6:
 				return (new Token(CONSTANT.ADDOP, CONSTANT.OR));
@@ -143,6 +153,9 @@ public class LexicalAnalyzerReader {
 				character = (char) in.read();
 				if (character == '&') {
 					state = 8;
+				}
+				else{
+					state = -1;
 				}
 				break;
 			case 8:
@@ -185,6 +198,7 @@ public class LexicalAnalyzerReader {
 				} else {
 					state = 22;
 				}
+
 				break;
 
 			case 21:
@@ -239,7 +253,7 @@ public class LexicalAnalyzerReader {
 				System.exit(-99);
 				break;
 			}
-
+			
 		}
 		
 		// file is empty

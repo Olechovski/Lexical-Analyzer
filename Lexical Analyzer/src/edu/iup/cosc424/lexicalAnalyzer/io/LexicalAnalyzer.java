@@ -2,7 +2,6 @@ package edu.iup.cosc424.lexicalAnalyzer.io;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import edu.iup.cosc424.lexicalAnalyzer.bo.SymbolTable;
 import edu.iup.cosc424.lexicalAnalyzer.bo.Token;
 
 /**
@@ -39,6 +38,7 @@ public class LexicalAnalyzer {
 	private static void loadLexicalAnalyzer(String fileName) throws IOException {
 		LexicalAnalyzerReader reader = new LexicalAnalyzerReader(fileName);
 		Token t;
+		int count = 0;
 		while ((t = reader.readToken()) != null) {
 			// print token here
 			if (t.type == 0){
@@ -47,8 +47,9 @@ public class LexicalAnalyzer {
 			else{
 				System.out.println("<" + t.type + "," + t.value + ">");
 			}
+			count++;
 		}
-
+		System.out.println(count);
 	}
 
 
