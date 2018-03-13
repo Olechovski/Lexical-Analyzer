@@ -100,7 +100,7 @@ public class LexicalAnalyzerReader {
 				}
 				// Invalid character
 				else{
-					System.out.println("'" + character +"'");
+					System.out.println("'" + character + "'");
 					state = -1;
 				}
 				break;
@@ -175,6 +175,7 @@ public class LexicalAnalyzerReader {
 				return (new Token(CONSTANT.SUB));
 			case 13:
 				return (new Token(CONSTANT.MUL));
+			// Comment
 			case 14:
 				in.mark(2);
 				character = (char) in.read();
