@@ -21,10 +21,7 @@ public class LexicalAnalyzerReader {
 	private BufferedReader in;
 	private int value;
 	private SymbolTable st = new SymbolTable();
-<<<<<<< HEAD
 
-=======
->>>>>>> LexicalAnalyzerReader_Comments
 
 	/**
 	 * Construct the Lexical Analyzer reader by initializing the buffer reader
@@ -98,10 +95,12 @@ public class LexicalAnalyzerReader {
 				} else if (character == '!') {
 					state = 35;
 				}
-				else if (character == '\r' || character == '\n'){
+				else if (isSpacer(character)){
 					state = 0;
 				}
+				// Invalid character
 				else{
+					System.out.println("'" + character +"'");
 					state = -1;
 				}
 				break;
@@ -380,6 +379,19 @@ public class LexicalAnalyzerReader {
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Checks to see if the character being read is a space, tab, or enter.
+	 * 
+	 * @param character
+	 * @return True or False
+	 */
+	public boolean isSpacer(char character){
+		if (character == ' ' || character == '	' || character == '\n'){
+		return true;
+		}
+		return false;
 	}
 
 }
