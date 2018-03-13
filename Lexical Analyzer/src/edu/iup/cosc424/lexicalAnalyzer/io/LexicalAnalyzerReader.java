@@ -22,7 +22,6 @@ public class LexicalAnalyzerReader {
 	private int value;
 	private SymbolTable st = new SymbolTable();
 
-
 	/**
 	 * Construct the Lexical Analyzer reader by initializing the buffer reader
 	 * 
@@ -45,12 +44,10 @@ public class LexicalAnalyzerReader {
 		char character;
 		int state = 0;
 
-		
 		while (in.ready() || state != 0) {
 
 			switch (state) {
 
-	
 			// Base case
 			case 0:
 				character = (char) in.read();
@@ -94,12 +91,11 @@ public class LexicalAnalyzerReader {
 					state = 32;
 				} else if (character == '!') {
 					state = 35;
-				}
-				else if (isSpacer(character)){
+				} else if (isSpacer(character)) {
 					state = 0;
 				}
 				// Invalid character
-				else{
+				else {
 					System.out.println("'" + character + "'");
 					state = -1;
 				}
@@ -109,7 +105,7 @@ public class LexicalAnalyzerReader {
 			case 1:
 				in.mark(2);
 				character = (char) in.read();
-				
+
 				if (isLetter(character) || isDigit(character)) {
 					lexeme = lexeme + character;
 					state = 1;
@@ -144,8 +140,7 @@ public class LexicalAnalyzerReader {
 				character = (char) in.read();
 				if (character == '|') {
 					state = 6;
-				}
-				else{
+				} else {
 					state = -1;
 				}
 				break;
@@ -156,8 +151,7 @@ public class LexicalAnalyzerReader {
 				character = (char) in.read();
 				if (character == '&') {
 					state = 8;
-				}
-				else{
+				} else {
 					state = -1;
 				}
 				break;
@@ -179,37 +173,42 @@ public class LexicalAnalyzerReader {
 			case 14:
 				in.mark(2);
 				character = (char) in.read();
-				if(character == '*') {
+				if (character == '*') {
 					state = 15;
-					break;
+				} else if (character == '/') {
+					state = 18;
+				} else {
+					state = 20;
 				}
+				break;
 			case 15:
 				character = (char) in.read();
-				if(character == '*') {
+				if (character == '*') {
 					state = 16;
 				} else {
 					lexeme += character;
 				}
-				break; 
-				
+				break;
 			case 16:
 				character = (char) in.read();
-				if(character == '/') {
+				if (character == '/') {
 					state = 17;
 				} else {
 					lexeme += character;
 					state = 15;
 				}
 				break;
-				
 			case 17:
 				return (new Token(CONSTANT.SLASH_STAR_COMMENT, st.installID(lexeme)));
-				
+
 			case 18:
-				
+				lexeme = in.readLine();
+				state = 19;
+				break;
 			case 19:
-			
+				return (new Token(CONSTANT.COMMENT, st.installID(lexeme)));
 			case 20:
+				retract();
 				return (new Token(CONSTANT.MULTOP, CONSTANT.DIV));
 			// Control Structures
 			case 21:
@@ -290,7 +289,7 @@ public class LexicalAnalyzerReader {
 				System.exit(-99);
 				break;
 			}
-			
+
 		}
 
 		// file is empty
@@ -381,16 +380,16 @@ public class LexicalAnalyzerReader {
 
 		return true;
 	}
-	
+
 	/**
 	 * Checks to see if the character being read is a space, tab, or enter.
 	 * 
 	 * @param character
 	 * @return True or False
 	 */
-	public boolean isSpacer(char character){
-		if (character == ' ' || character == '	' || character == '\n' || character == '\r'){
-		return true;
+	public boolean isSpacer(char character) {
+		if (character == ' ' || character == '	' || character == '\n' || character == '\r') {
+			return true;
 		}
 		return false;
 	}
