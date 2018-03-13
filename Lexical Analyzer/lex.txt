@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
@@ -50,3 +51,7 @@ abcd
 abc
 ab
 a
+=======
+/*test*/ 
+int a = 0;
+>>>>>>> LexicalAnalyzerReader_Comments

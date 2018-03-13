@@ -42,7 +42,7 @@ public class CONSTANT {
 	public static final int LE = 404;
 	public static final int GT = 405;
 	public static final int GE = 406;
-	public static final int EX = 407;
+	public static final int NOT = 407;
 	
 	// Assign Operation
 	public static final int ASSIGNOP = 500;
@@ -57,6 +57,10 @@ public class CONSTANT {
 	public static final int IF = 605;
 	public static final int ELSE = 606;
 	public static final int WHILE = 607;
+	
+	// Comments
+	public static final int COMMENT = 700;
+	public static final int SLASH_STAR_COMMENT = 701;
 	
 
 }
