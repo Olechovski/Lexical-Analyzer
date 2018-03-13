@@ -389,7 +389,7 @@ public class LexicalAnalyzerReader {
 	 * @return True or False
 	 */
 	public boolean isSpacer(char character){
-		if (character == ' ' || character == '	' || character == '\n'){
+		if (character == ' ' || character == '	' || character == '\n' || character == '\r'){
 		return true;
 		}
 		return false;

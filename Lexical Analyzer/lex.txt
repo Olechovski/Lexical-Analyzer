@@ -1,2 +1,2 @@
-//lksadjflkdsjflk;
-int i
+int a = 10;
+int x;
