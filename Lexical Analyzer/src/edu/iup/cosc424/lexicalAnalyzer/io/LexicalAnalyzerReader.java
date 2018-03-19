@@ -10,8 +10,9 @@ import edu.iup.cosc424.lexicalAnalyzer.bo.SymbolTable;
 import edu.iup.cosc424.lexicalAnalyzer.bo.Token;
 
 /**
- *  This class is designed to read the file and perform lexical analysis that outputs a token as a result
- *  
+ * This class is designed to read the file and perform lexical analysis that
+ * outputs a token as a result
+ * 
  * @author Eric Olechovski & Kyle Wilson
  *
  */
@@ -21,8 +22,8 @@ public class LexicalAnalyzerReader {
 	private int value;
 	private SymbolTable st = new SymbolTable();
 
-
-	/** Construct the Lexical Analyzer reader by initializing the buffer reader
+	/**
+	 * Construct the Lexical Analyzer reader by initializing the buffer reader
 	 * 
 	 * @param fileName
 	 * @throws FileNotFoundException
@@ -31,7 +32,6 @@ public class LexicalAnalyzerReader {
 		in = new BufferedReader(new FileReader(fileName));
 	}
 
-	
 	/**
 	 * Responsible for creating a token based on the constructed lexeme
 	 * 
@@ -44,12 +44,10 @@ public class LexicalAnalyzerReader {
 		char character;
 		int state = 0;
 
-		
 		while (in.ready() || state != 0) {
 
 			switch (state) {
 
-	
 			// Base case
 			case 0:
 				character = (char) in.read();
@@ -76,37 +74,38 @@ public class LexicalAnalyzerReader {
 				} else if (character == '/') {
 					state = 14;
 				} else if (character == '(') {
-					state = 15;
+					state = 21;
 				} else if (character == ')') {
-					state = 16;
+					state = 22;
 				} else if (character == '{') {
-					state = 17;
-				} else if (character == '}') {
-					state = 18;
-				} else if (character == '%') {
-					state = 19;
-				} else if (character == '<') {
-					state = 20;
-				} else if (character == '>') {
 					state = 23;
-				} else if (character == '=') {
+				} else if (character == '}') {
+					state = 24;
+				} else if (character == '%') {
+					state = 25;
+				} else if (character == '<') {
 					state = 26;
-				} else if (character == '!') {
+				} else if (character == '>') {
 					state = 29;
-				}
-				else if (character == '\r' || character == '\n'){
+				} else if (character == '=') {
+					state = 32;
+				} else if (character == '!') {
+					state = 35;
+				} else if (isSpacer(character)) {
 					state = 0;
 				}
-				else{
+				// Invalid character
+				else {
+					System.out.println("'" + character + "'");
 					state = -1;
 				}
 				break;
-				
+
 			// Identifier
 			case 1:
 				in.mark(2);
 				character = (char) in.read();
-				
+
 				if (isLetter(character) || isDigit(character)) {
 					lexeme = lexeme + character;
 					state = 1;
@@ -135,14 +134,13 @@ public class LexicalAnalyzerReader {
 			case 4:
 				retract();
 				return (new Token(CONSTANT.NUM, numValue(lexeme)));
-			
+
 			// Arithmetic Operators
 			case 5:
 				character = (char) in.read();
 				if (character == '|') {
 					state = 6;
-				}
-				else{
+				} else {
 					state = -1;
 				}
 				break;
@@ -153,8 +151,7 @@ public class LexicalAnalyzerReader {
 				character = (char) in.read();
 				if (character == '&') {
 					state = 8;
-				}
-				else{
+				} else {
 					state = -1;
 				}
 				break;
@@ -164,7 +161,7 @@ public class LexicalAnalyzerReader {
 				return (new Token(CONSTANT.SEMICOLON));
 			case 10:
 				return (new Token(CONSTANT.COMMA));
-				
+
 			// Arithmetic Operators
 			case 11:
 				return (new Token(CONSTANT.ADD));
@@ -172,54 +169,62 @@ public class LexicalAnalyzerReader {
 				return (new Token(CONSTANT.SUB));
 			case 13:
 				return (new Token(CONSTANT.MUL));
+			// Comment
 			case 14:
-				return (new Token(CONSTANT.DIV));
-				
-			// Control Structures
+				in.mark(2);
+				character = (char) in.read();
+				if (character == '*') {
+					state = 15;
+				} else if (character == '/') {
+					state = 18;
+				} else {
+					state = 20;
+				}
+				break;
 			case 15:
-				return (new Token(CONSTANT.LPAREN));
+				character = (char) in.read();
+				if (character == '*') {
+					state = 16;
+				} else {
+					lexeme += character;
+				}
+				break;
 			case 16:
-				return (new Token(CONSTANT.RPAREN));
+				character = (char) in.read();
+				if (character == '/') {
+					state = 17;
+				} else {
+					lexeme += character;
+					state = 15;
+				}
+				break;
 			case 17:
-				return (new Token(CONSTANT.LBRACE));
+				return (new Token(CONSTANT.SLASH_STAR_COMMENT, st.installID(lexeme)));
+
 			case 18:
-				return (new Token(CONSTANT.RBRACE));
-				
-			// Arithmetic Operator
+				lexeme = in.readLine();
+				state = 19;
+				break;
 			case 19:
-				return (new Token(CONSTANT.MOD));
-				
-			// Relational Operators 
+				return (new Token(CONSTANT.COMMENT, st.installID(lexeme)));
 			case 20:
-				in.mark(2);
-				character = (char) in.read();
-				if (character == '=') {
-					state = 21;
-				} else {
-					state = 22;
-				}
-
-				break;
-
+				retract();
+				return (new Token(CONSTANT.MULTOP, CONSTANT.DIV));
+			// Control Structures
 			case 21:
-				return (new Token(CONSTANT.RELOP, CONSTANT.LE));
+				return (new Token(CONSTANT.LPAREN));
 			case 22:
-				retract();
-				return (new Token(CONSTANT.RELOP, CONSTANT.LT));
+				return (new Token(CONSTANT.RPAREN));
 			case 23:
-				in.mark(2);
-				character = (char) in.read();
-				if (character == '=') {
-					state = 24;
-				} else {
-					state = 25;
-				}
-				break;
+				return (new Token(CONSTANT.LBRACE));
 			case 24:
-				return (new Token(CONSTANT.RELOP, CONSTANT.GE));
+				return (new Token(CONSTANT.RBRACE));
+
+			// Arithmetic Operator
 			case 25:
-				retract();
-				return (new Token(CONSTANT.RELOP, CONSTANT.GT));
+				return (new Token(CONSTANT.MOD));
+
+			// Relational Operators
 			case 26:
 				in.mark(2);
 				character = (char) in.read();
@@ -228,12 +233,14 @@ public class LexicalAnalyzerReader {
 				} else {
 					state = 28;
 				}
+
 				break;
+
 			case 27:
-				return (new Token(CONSTANT.RELOP, CONSTANT.EE));
+				return (new Token(CONSTANT.RELOP, CONSTANT.LE));
 			case 28:
 				retract();
-				return (new Token(CONSTANT.ASSIGNOP, CONSTANT.EQ));
+				return (new Token(CONSTANT.RELOP, CONSTANT.LT));
 			case 29:
 				in.mark(2);
 				character = (char) in.read();
@@ -244,25 +251,54 @@ public class LexicalAnalyzerReader {
 				}
 				break;
 			case 30:
-				return (new Token(CONSTANT.RELOP, CONSTANT.NE));
+				return (new Token(CONSTANT.RELOP, CONSTANT.GE));
 			case 31:
 				retract();
-				return (new Token(CONSTANT.RELOP, CONSTANT.EX));
+				return (new Token(CONSTANT.RELOP, CONSTANT.GT));
+			case 32:
+				in.mark(2);
+				character = (char) in.read();
+				if (character == '=') {
+					state = 33;
+				} else {
+					state = 34;
+				}
+				break;
+			case 33:
+				return (new Token(CONSTANT.RELOP, CONSTANT.EE));
+			case 34:
+				retract();
+				return (new Token(CONSTANT.ASSIGNOP, CONSTANT.EQ));
+			case 35:
+				in.mark(2);
+				character = (char) in.read();
+				if (character == '=') {
+					state = 36;
+				} else {
+					state = 37;
+				}
+				break;
+			case 36:
+				return (new Token(CONSTANT.RELOP, CONSTANT.NE));
+			case 37:
+				retract();
+				return (new Token(CONSTANT.RELOP, CONSTANT.NOT));
+
 			default:
 				System.err.println("Syntax Error");
 				System.exit(-99);
 				break;
 			}
-			
+
 		}
-		
+
 		// file is empty
 		return null;
 	}
 
 	/**
-	 * lexeme is a string that represents a number and is then
-	 * parsed into an integer value
+	 * lexeme is a string that represents a number and is then parsed into an
+	 * integer value
 	 * 
 	 * @param lexeme
 	 * @return integer value
@@ -272,8 +308,7 @@ public class LexicalAnalyzerReader {
 	}
 
 	/**
-	 * After reaching the end of a lexeme
-	 * the 'lookahead' will recede one position
+	 * After reaching the end of a lexeme the 'lookahead' will recede one position
 	 */
 	public void retract() {
 		try {
@@ -283,10 +318,8 @@ public class LexicalAnalyzerReader {
 		}
 	}
 
-	
 	/**
-	 * Checks to see if a lexeme/character is a letter
-	 * [a-z A-Z]
+	 * Checks to see if a lexeme/character is a letter [a-z A-Z]
 	 * 
 	 * @param character
 	 * @return True or False
@@ -304,8 +337,7 @@ public class LexicalAnalyzerReader {
 	}
 
 	/**
-	 * Checks to see if a lexeme/character is a digit
-	 * [0-9]
+	 * Checks to see if a lexeme/character is a digit [0-9]
 	 * 
 	 * @param character
 	 * @return True or False
@@ -321,7 +353,8 @@ public class LexicalAnalyzerReader {
 		in.close();
 	}
 
-	/** Ensures that an potential identifier is not a keyword 
+	/**
+	 * Ensures that an potential identifier is not a keyword
 	 * 
 	 * @param lexeme
 	 * @return True or False
@@ -348,5 +381,17 @@ public class LexicalAnalyzerReader {
 		return true;
 	}
 
-}
+	/**
+	 * Checks to see if the character being read is a space, tab, or enter.
+	 * 
+	 * @param character
+	 * @return True or False
+	 */
+	public boolean isSpacer(char character) {
+		if (character == ' ' || character == '	' || character == '\n' || character == '\r') {
+			return true;
+		}
+		return false;
+	}
 
+}
